@@ -1,1 +1,0 @@
-This folder contains Firmware for ST7789 driver for Rasberry pi Pico 
