@@ -40,6 +40,7 @@ class Display():
 #================================ PODSTAWOWE WYSWIETLANIE =============================================#        
     ##======= Wybór Funkcji podstawowej ==============##
     def screen(self,obj_menu,obj_licznik):
+
         ###=== Interwały ===###
         if obj_menu.interwal_czas_start_0 == True:
             self.interwal_czas(obj_menu,obj_licznik)
@@ -61,8 +62,8 @@ class Display():
                     IPS.fill(st7789.BLACK)
                 self.wejscie = True
                               
-            self.show_speed(obj_licznik.current_speed,obj_menu.zmiana_przycisk )
             self.show_cadence(obj_licznik.current_cadence,obj_menu.zmiana_przycisk)
+            self.show_speed(obj_licznik.current_speed,obj_menu.zmiana_przycisk )
             if obj_menu.zmiana_przycisk == True:
                 gc.collect() # Just in case, bo nie ma framebuffera  
                 IPS.fill_rect(0,109,120,72, st7789.BLACK)
@@ -146,12 +147,15 @@ class Display():
             zaokraglenie = min(round((round(predkosc,1) - speed)*10), 9)        
             aktualne_wartosci = (speed,zaokraglenie)
             x = 280 if speed > 9 else 225 
-            wspolzedne_i_font_size = (160, 60, x, 47, 3.1,1.9) # x1,y1,x2,y2 font_1, font_2
-            if not hasattr(self, 'poprzednie_wartosci'):
-                self.poprzednie_wartosci = (speed,zaokraglenie,160,x)
-            self.draw_speed(self.poprzednie_wartosci, aktualne_wartosci, wspolzedne_i_font_size)
-            
-            self.poprzednie_wartosci = (speed,zaokraglenie,160,x)
+            wspolzedne_i_font_size = (160, 60, x, 45, 3.2,1.8) # x1,y1,x2,y2 font_1, font_2
+            if not hasattr(self, 'poprzednie_predkosci'):
+                self.poprzednie_predkosci = (speed,zaokraglenie)
+            if not hasattr(self, 'poprzednie_wspolrzedne'):
+                self.poprzednie_wspolrzedne = (160,x)
+                
+            self.draw_speed(self.poprzednie_predkosci,self.poprzednie_wspolrzedne, aktualne_wartosci, wspolzedne_i_font_size)
+            self.poprzednie_predkosci = (speed,zaokraglenie)
+            self.poprzednie_wspolrzedne = (160,x)
             self.wyswietlana_predkosc = predkosc
             
         else:
@@ -161,33 +165,37 @@ class Display():
 
 
     def show_speed_speedometer(self,predkosc, obj_menu): 
-        if self.wyswietlana_predkosc_speedometer != predkosc or (obj_menu.powrot_menu == True and obj_menu.interwal_czas_start_0 == False and obj_menu.interwal_dystans_start_0 == False):
+        if self.wyswietlana_predkosc_speedometer != predkosc or obj_menu.powrot_menu == True:
             gc.collect() # Just in case, bo nie ma framebuffera   
             speed = int(predkosc)
             zaokraglenie = min(round((round(predkosc,1) - speed)*10), 9)  
             aktualne_wartosci = (speed,zaokraglenie)
             
-            if obj_menu.interwal_czas_start_0 == True:
-                x = 78 if speed > 9 else 47
+            if obj_menu.interwal_czas_start_0 == True:               
+                x = 85 if speed > 9 else 46
                 x_1 = 1
-                wspolzedne_i_font_size = (x_1, 215, x, 203,2,1) # x1,y1,x2,y2
+                wspolzedne_i_font_size = (x_1, 215, x, 203,2.2,1.2) # x1,y1,x2,y2,size1,size2
+                if obj_menu.powrot_menu == True:
+                    self.poprzednie_wspolrzedne_1 = (x_1,x)
             elif obj_menu.interwal_dystans_start_0 == True:
-#                 aktualne_wartosci = (speed,zaokraglenie)
-                x = 187 if speed > 9 else 155
-                x_1 = 109
-                wspolzedne_i_font_size = (x_1, 122, x, 110,2,1,) # x1,y1,x2,y2
-#                 self.draw_speed(self.poprzednie_wartosci, aktualne_wartosci, wspolzedne_i_font_size) 
+                x = 195 if speed > 9 else 168
+                x_1 = 109 if speed > 9 else 122
+                wspolzedne_i_font_size = (x_1, 120, x, 108,2.3,1.2) # x1,y1,x2,y2,size1,size2
+                if obj_menu.powrot_menu == True:
+                    self.poprzednie_wspolrzedne_1 = (x_1,x)
             else:
                 x = 210 if speed > 9 else 175
                 x_1 = 80 if speed > 9 else 110
-                wspolzedne_i_font_size = (x_1, 160, x, 144,3.2,1.8) # x1,y1,x2,y2
+                wspolzedne_i_font_size = (x_1, 158, x, 142,3.2,1.8) # x1,y1,x2,y2,size1,size2
                 
-            if not hasattr(self, 'poprzednie_wartosci'):
-                self.poprzednie_wartosci = (speed,zaokraglenie,x_1,x)
-                
-            self.draw_speed(self.poprzednie_wartosci, aktualne_wartosci, wspolzedne_i_font_size) 
-            
-            self.poprzednie_wartosci = (speed,zaokraglenie,x_1,x)
+            if not hasattr(self, 'poprzednie_predkosci_1'):
+                self.poprzednie_predkosci_1 = (speed,zaokraglenie)
+            if not hasattr(self, 'poprzednie_wspolrzedne_1'):
+                self.poprzednie_wspolrzedne_1 = (x_1,x)
+                                               
+            self.draw_speed(self.poprzednie_predkosci_1,self.poprzednie_wspolrzedne_1,aktualne_wartosci, wspolzedne_i_font_size)       
+            self.poprzednie_predkosci_1 = (speed,zaokraglenie)
+            self.poprzednie_wspolrzedne_1 = (x_1,x)
             self.wyswietlana_predkosc_speedometer = predkosc
             
             if obj_menu.powrot_menu == True:
@@ -197,45 +205,72 @@ class Display():
             pass
         
         
-    def draw_speed(self,poprzednie_wartosci, aktualne_wartosci, wspolzedne_i_font_size ):
-        old_speed , old_round , old_x1, old_x2 = poprzednie_wartosci
-        speed, zaokraglenie = aktualne_wartosci
+    def draw_speed(self,poprzednie_predkosci, poprzednie_wspolrzedne,aktualne_wartosci, wspolzedne_i_font_size ):
+        old_speed , old_round       = poprzednie_predkosci
+        old_x, x                    = poprzednie_wspolrzedne
+        speed, zaokraglenie         = aktualne_wartosci
         x1,y1,x2,y2, size_1, size_2 = wspolzedne_i_font_size
-        IPS.draw(romand, str(old_speed)   ,old_x1 ,y1, st7789.BLACK, size_1)
-        IPS.draw(romand, str(old_round)   ,old_x2,y2, st7789.BLACK, size_2)
+        
+        IPS.draw(romand, str(old_speed)   ,old_x,y1, st7789.BLACK, size_1)
+        IPS.draw(romand, str(old_round)   ,x    ,y2, st7789.BLACK, size_2)
         IPS.draw(romand, str(speed)       ,x1   ,y1, self.motyw_czcionki(self.kolor_czcionki), size_1)
         IPS.draw(romand, str(zaokraglenie),x2   ,y2, self.motyw_czcionki(self.kolor_czcionki), size_2)           
         
         
     def show_cadence(self, cadence,zmiana_przycisk):
         if self.wyswietlana_cadence != cadence or zmiana_przycisk ==True:
-            IPS.draw(romand, str(round(self.wyswietlana_cadence)), 219, 138, st7789.BLACK, 1.8)
-            IPS.draw(romand, str(round(cadence)), 219, 138, self.motyw_czcionki(self.kolor_czcionki), 1.8)
+            showCadence = round(cadence)
+            if showCadence < showCadence:
+                x_prim = 1
+            elif showCadence < 100 and showCadence > 10:
+                x_prim = 2
+            else:
+                x_prim = 3
+                
+            x  = int(240 - x_prim*14)    
+            if not hasattr(self, 'poprzednie_x'):
+                self.poprzednie_x = x
+            IPS.draw(romand, str(round(self.wyswietlana_cadence)),self.poprzednie_x , 138, st7789.BLACK, 1.8)
+            IPS.draw(romand, str(showCadence), x, 138, self.motyw_czcionki(self.kolor_czcionki), 1.8)
             self.wyswietlana_cadence = cadence
+            self.poprzednie_x = x
         else:
             pass
  
     def show_cadence_speedometer(self,cadence, obj_menu):
-        if self.wyswietlana_cadence_speedometer != cadence or (obj_menu.powrot_menu == True and obj_menu.interwal_czas_start_0 == False and obj_menu.interwal_dystans_start_0 == False):
-            
+        if self.wyswietlana_cadence_speedometer != cadence or obj_menu.powrot_menu == True:
+
+            showCadence = round(cadence)
+            if showCadence < showCadence:
+                x_prim = 1
+            elif showCadence < 100 and showCadence > 10:
+                x_prim = 2
+            else:
+                x_prim = 3
+                
             if obj_menu.interwal_czas_start_0 == True:
-                IPS.draw(romand, str(round(self.wyswietlana_cadence_speedometer)), 240, 212, st7789.BLACK, 1.3)
-                IPS.draw(romand, str(round(cadence)), 240, 212, self.motyw_czcionki(self.kolor_czcionki), 1.3)
+                x = int(270 - x_prim*10)
+                if obj_menu.powrot_menu == True:
+                    self.poprzednie_x_1 = x
+                IPS.draw(romand, str(round(self.wyswietlana_cadence_speedometer)),self.poprzednie_x_1 , 212, st7789.BLACK, 1.4)
+                IPS.draw(romand, str(showCadence), x, 212, self.motyw_czcionki(self.kolor_czcionki), 1.4)
                                
             elif obj_menu.interwal_dystans_start_0 == True:
-                IPS.draw(romand, str(round(self.wyswietlana_cadence_speedometer)), 190, 167, st7789.BLACK, 1.3)   
-                IPS.draw(romand, str(round(cadence)), 190, 167, self.motyw_czcionki(self.kolor_czcionki), 1.3)                       
+                x = int(210 - x_prim*10)
+                if obj_menu.powrot_menu == True:
+                    self.poprzednie_x_1 = x
+                IPS.draw(romand, str(round(self.wyswietlana_cadence_speedometer)), self.poprzednie_x_1, 167, st7789.BLACK, 1.3)   
+                IPS.draw(romand, str(showCadence), x, 167, self.motyw_czcionki(self.kolor_czcionki), 1.3)                       
                 
-            else:              
-                if cadence < 10:
-                    x_prim = 1
-                elif cadence < 100 and cadence > 10:
-                    x_prim = 2
-                else:
-                    x_prim = 3
-                IPS.draw(romand, str(round(self.wyswietlana_cadence_speedometer)), int(160 - x_prim*16), 219, st7789.BLACK, 1.6)    
-                IPS.draw(romand, str(round(cadence)), int(160 - x_prim*16), 219, self.motyw_czcionki(self.kolor_czcionki), 1.6)
+            else:
+                x  = int(160 - x_prim*13)
+                size = 1.7
+                if not hasattr(self, 'poprzednie_x_1'):
+                    self.poprzednie_x_1 = x
+                IPS.draw(romand, str(round(self.wyswietlana_cadence_speedometer)),self.poprzednie_x_1 , 217, st7789.BLACK, size)    
+                IPS.draw(romand, str(showCadence), x , 217, self.motyw_czcionki(self.kolor_czcionki), size)
             self.wyswietlana_cadence_speedometer = cadence
+            self.poprzednie_x_1 = x
         else:
             pass
     def clear_interwal_czas(kolor):

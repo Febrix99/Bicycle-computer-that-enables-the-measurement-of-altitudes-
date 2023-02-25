@@ -1,7 +1,6 @@
-1 Poprawne wyswietlanie kadencji i predkosci rownej 0 dla interwalow 
-	wielokrotnie i kuloodpornie bo mozna wchodzic do menu jeszcze 
+Dobrać parametry kadencji 
 
-2 ogarnięcie programowania na 2 corach	
+Ogarnięcie programowania na 2 corach	
 (Podstawy, jakiś obiekt co coś oblicza, dzili się danymi, wyświelta, printuje)
 
 Zmiana programu gdy przyjdzie płydka:	
