@@ -1,0 +1,13 @@
+Barometr SparkFun SEN-11084  
+Battery Green Cell BL-45a1h Model: BP71        1/3
+Membrane kayboard                              Można pro forma zmienić wygląd 
+Swtich On Off 1101M2S3ABE2 C&K
+Buzzer passive PWM RobotDyn 1513MA             2/3
+Charger Li-Pol TP4056                          2/3
+Connector Adafruit 5359                        1/3
+240×320 General 2inch IPS LCD Display Module       
+Module GPS GY-NEO6MV2 NEO-6M witch antene      2/3
+Raspberry Pi Pico             
+MOSFET DMG2305UX-7 (bottom)                     
+Tranzistor with rezistore   MMUN2138LT1G  (top)   
+

@@ -1,0 +1,23 @@
+"Source:","C:\Users\HP\Desktop\Licznik\Hardware\Schemat_elektryczny\Płytka_pcb\Płytka_pcb.kicad_sch"
+"Date:","17.11.2022 21:56:01"
+"Tool:","Eeschema (6.0.9)"
+"Generator:","C:\Program Files\KiCad\6.0\bin\scripting\plugins/bom_csv_grouped_by_value.py"
+"Component Count:","4"
+
+"Individual Components:"
+
+"Item","Qty","Reference(s)","Value","LibPart","Footprint","Datasheet"
+"","","J1","Disaply","Connector_Generic:Conn_01x08","Resistor_THT:R_Array_SIP8","~"
+"","","J2","Buzzer","Connector_Generic:Conn_01x04","Buzzer_15x7.5RM7.6","~"
+"","","J3","Barometr","Connector_Generic:Conn_01x06","Resistor_THT:R_Array_SIP6","~"
+"","","U1","Pico","MCU_RaspberryPi_and_Boards:Pico","RPi_Pico:RPi_Pico_SMD_TH",""
+
+
+
+"Collated Components:"
+
+"Item","Qty","Reference(s)","Value","LibPart","Footprint","Datasheet"
+"1","1","J1","Disaply","Connector_Generic:Conn_01x08","Resistor_THT:R_Array_SIP8","~"
+"2","1","J2","Buzzer","Connector_Generic:Conn_01x04","Buzzer_15x7.5RM7.6","~"
+"3","1","J3","Barometr","Connector_Generic:Conn_01x06","Resistor_THT:R_Array_SIP6","~"
+"4","1","U1","Pico","MCU_RaspberryPi_and_Boards:Pico","RPi_Pico:RPi_Pico_SMD_TH",""
