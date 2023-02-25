@@ -259,7 +259,7 @@ class Licznik_main(): #Główna funkcja
         with open("/Dane/dane_total.txt", "r") as plik:
             self.counter = int(plik.readline().strip()) 
             self.v_max = float(plik.readline().strip()) 
-            self.przewyzszenia = float(plik.readline().strip()) 
+            self.przewyzszenia = float(plik.readline().strip())
             self.rtc_czas_total = [int(czas) for czas in plik.readline().strip().split(",")]
          
         with open("/Dane/dane_podroz.txt", "r") as plik:

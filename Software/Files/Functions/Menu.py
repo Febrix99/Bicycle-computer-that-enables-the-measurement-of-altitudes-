@@ -75,9 +75,9 @@ class Menu():
         elif  self.flaga_3_prog_menu == True: #Dotyczy tylko interwałów
             self.interwal_dane(self.add)
             
-        if self.podsumowanie == True and self.ilosc_cykli >3 : 
+        if self.podsumowanie == True and self.ilosc_cykli >3 :
             self.podsumowanie_interwalu_przycisk =  self.przycisk % (self.ilosc_cykli - 2) #Bo operacja modulo, czyli 1 mniej niż logika podpowiada 
-             
+
         self.interaction_przycisk =time.ticks_ms()
     def funkcja_przycisku_2(self):
             #=== Warunek, aby wyczyścić odpowiednią część na wyświetlaczu ==============#
@@ -193,7 +193,13 @@ class Menu():
         self.wybor_ktory_motyw = 0
         self.flaga_motywy_menu   = False
         self.flaga_motywy_menu_1 = False
-        self.powrot_menu = True
+        self.powrot_menu = True 
+        if self.interwal_czas_start_0 == False and self.interwal_dystans_start_0 == False:
+            self.ilosc_cykli = 4
+            self.interwal_dystans = 700       
+            self.interwal_dystans_pause = 500
+            self.interwal_czas = 30
+            self.interwal_pause = 60
         if self.interwal_czas_start_1 == True or self.interwal_dystans_start_1 == True :
             self.reset_interwalu()
         elif self.interwal_czas_start_0 == True or self.interwal_dystans_start_0 == True :
@@ -393,11 +399,11 @@ class Menu():
                     self.interwal_dystans = ope(self.interwal_dystans, 100)     
                 elif self.interwal_dystans >= 1_000 and self.interwal_dystans < 2_000:
                     self.interwal_dystans = ope(self.interwal_dystans, 200) 
-                elif self.interwal_dystans >= 2_000 and self.interwal_dystans < 5_000:
+                elif self.interwal_dystans >= 2_000 and self.interwal_dystans < 10_000:
                     self.interwal_dystans = ope(self.interwal_dystans, 500) 
-                elif self.interwal_dystans >= 5_000 and self.interwal_dystans < 15_000:
+                elif self.interwal_dystans >= 10_000 and self.interwal_dystans < 20_000:
                     self.interwal_dystans = ope(self.interwal_dystans, 1000) 
-                elif self.interwal_dystans >= 15_000:
+                elif self.interwal_dystans >= 20_000:
                     self.interwal_dystans = ope(self.interwal_dystans, 5000) 
                     
             elif self.wybor_w_menu_interwal == 1:
@@ -412,11 +418,11 @@ class Menu():
                     self.interwal_dystans_pause =ope(self.interwal_dystans_pause , 100)     
                 elif self.interwal_dystans_pause >= 1_000 and self.interwal_dystans_pause < 2_000:
                     self.interwal_dystans_pause =ope(self.interwal_dystans_pause , 200) 
-                elif self.interwal_dystans_pause >= 2_000 and self.interwal_dystans_pause < 5_000:
+                elif self.interwal_dystans_pause >= 2_000 and self.interwal_dystans_pause < 10_000:
                     self.interwal_dystans_pause =ope(self.interwal_dystans_pause , 500) 
-                elif self.interwal_dystans_pause >= 5_000 and self.interwal_dystans_pause < 15_000:
+                elif self.interwal_dystans_pause >= 10_000 and self.interwal_dystans_pause < 20_000:
                     self.interwal_dystans_pause =ope(self.interwal_dystans_pause , 1000) 
-                elif self.interwal_dystans_pause >= 15_000:
+                elif self.interwal_dystans_pause >= 20_000:
                     self.interwal_dystans_pause =ope(self.interwal_dystans_pause , 5000) 
                     
             elif self.wybor_w_menu_interwal == 2:  
@@ -520,7 +526,7 @@ class Menu():
         ####==== Przygotowanie do interwału ====#####
         if self.interwal_czas_start_1 == False:
             ##=== Wywołujemy rozpoczecie interwału ===###
-            if any(self.przytrzymanie_przycisku(x,600) for x in [1,2]): 
+            if any(self.przytrzymanie_przycisku(x,500) for x in [1,2]): 
                 self.flaga_buzzer = True
                 self.cykle  = self.ilosc_cykli *2
                 self.deadline_interwal = time.ticks_ms() #WPrzypisujemy zmiennej aktualny czas po wejściu w funkcję
@@ -573,14 +579,14 @@ class Menu():
             if self.odliczanie > 0:
                 return int(self.odliczanie)
             elif self.odliczanie <= 0:
-                self.ustawienie_danych = False
+                obj_menu.ustawienie_danych = False
                 return -1
 
     def interwal_dystans_funkcja(self, obj_licznik):
         ####==== Przygotowanie do interwału ====##### 
         if self.interwal_dystans_start_1 == False:
             ##=== Wywołujemy rozpoczecie interwału ===###
-            if any(self.przytrzymanie_przycisku(x,600) for x in [1,2]):
+            if any(self.przytrzymanie_przycisku(x,500) for x in [1,2]):
                 self.cykle  = self.ilosc_cykli *2      
                 self.flaga_buzzer = True
                 self.deadline_interwal = time.ticks_ms() #WPrzypisujemy zmiennej aktualny czas po wejściu w funkcję

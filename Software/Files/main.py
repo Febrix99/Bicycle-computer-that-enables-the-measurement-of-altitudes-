@@ -52,13 +52,13 @@ Licznik.barometr_flaga = False
         ########## Zmienne do wyswietlania danch ##########
 Licznik.counter = 0                    # Zliczanie wszystkich impulsów z koła
 Licznik.v_max = 0                      # Maksymalna prędkość chwilowa całości 
-Licznik.przeywzszenia = 0              # Wartość_przewyższenia
+Licznik.przewyzszenia = 0              # Wartość_przewyższenia
 Licznik.rtc_czas_total = [0,0,0,0]     # Tablica Dni/Godzin/Minut/Sekund total czasu
 Licznik.v_srednie = 0
 
 Licznik.counter_podroz = 0
 Licznik.v_max_podroz = 0
-Licznik.przeywzszenia_podroz = 0
+Licznik.przewyzszenia_podroz = 0
 Licznik.rtc_czas_podroz  = [0,0,0,0]
 
         ########## Zmienne do liczenia czasu ##########
@@ -128,7 +128,7 @@ Obj_Menu.wybor_w_menu_interwal = 0           # Poruszanie się po menu 3 progu
 Obj_Menu.wlasny_interwal = False             # Rodzaj wybranego interwału [Gotowy/Własny]
 Obj_Menu.ustawienie_danych = False           # Zmienna do istaiwnia danych w interwale 
 
-        ########## Zmienne do Interwału Czasowego ########## 
+     ########## Zmienne do Interwału Czasowego ########## 
 Obj_Menu.interwal_czas = 30
 Obj_Menu.interwal_pause = 60
 Obj_Menu.interwal_czas_start_0 = False       # Ustawienie interwału 
@@ -319,8 +319,15 @@ if __name__=='__main__':
             Obj_Menu.spac_menu = True # Zmienna mówiąca, że jest się w fazie snu
             Licznik.zapis_do_pliku()
             Obj_Menu.wyjscie_z_menu()
-
+            #- Miejsce na wylaczenie ekranu tranzystorem 
             while Licznik.spac == True and Obj_Menu.spac_menu == True: # Wejście w pętle snu az do momentu "wybudzenia" ;D 
                 time.sleep_ms(500)
-            Flaga_start = True          # Włączenie funkcji startowej po wyjściu ze snu 
+            Flaga_start = True          # Włączenie funkcji startowej po wyjściu ze snu
+            #- Miejsce na wlaczenie ekranu tranzystorem
+            #- Można dodać funkcje w screen. która będzie robić "powitanie" po obudzeni
+            #- Można ją umieścić w funkcji startowej, a przed pójściem spać IPS.Fill(st7789.Black)
+            #- Zaoszczędzam wtedy 50ms 
+            
+            
+            
 ########################################### KONIEC ############################################################

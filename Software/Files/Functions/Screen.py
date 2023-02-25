@@ -11,11 +11,7 @@ spi = machine.SPI(0, 40000000, polarity=1, sck=machine.Pin(18), mosi=machine.Pin
 IPS = st7789.ST7789(spi, 240, 320, reset=Pin(21,Pin.OUT), dc=Pin(16, Pin.OUT),rotation = 3)
 IPS.init()
 #################################################################################################
-start = 0
-delta = 0
-b = st7789.color565(50,100,255)
-gold =  st7789.color565(220 , 170 , 50 )
-start = 0
+gold =  st7789.color565(190 , 130 , 60 ) # st7789.color565(179 , 139 , 91 )
 class Display():
 #### Dodatkowe zmienne do wykrycia zniamy aby nastąpiło czyszczenie przed pokazaniem nowych danych
     zmiana_czasu, speed,wyswietlana_cadence             = 0,0,0
@@ -52,7 +48,7 @@ class Display():
             self.interwal_dstans(obj_menu,obj_licznik)  
         ###=== Spedometer ===###
         if obj_menu.warunek_ktory_wyswietlacz ==0:  
-            self.wyswietlanie_speedometera(obj_menu,obj_licznik, 160,175,157)
+            self.wyswietlanie_speedometera(obj_menu,obj_licznik, 160,177,157)
             
         ###=== Cała reszta ===###    
         else:
@@ -97,9 +93,8 @@ class Display():
         IPS.text(font_32, str(round(obj_licznik.counter_podroz * obj_licznik.obwod_kola/1000000,1))  , 5   ,150,   self.motyw_czcionki((self.kolor_czcionki-1)))
         
     def funkcja_wyswietlacz_2(self,obj_licznik,obj_menu): #Przewyzszenia
-        IPS.text(font_32, str(round(obj_licznik.przeywzszenia)) + ' m' ,    5    ,110,self.motyw_czcionki(self.kolor_czcionki))
-        IPS.text(font_32, str(round(obj_licznik.przeywzszenia_podroz)) ,    5    ,150,self.motyw_czcionki((self.kolor_czcionki-1)))        
-        
+        IPS.text(font_32, str(round(obj_licznik.przewyzszenia)) + ' m' ,    5    ,110,self.motyw_czcionki(self.kolor_czcionki))
+        IPS.text(font_32, str(round(obj_licznik.przewyzszenia_podroz)) ,    5    ,150,self.motyw_czcionki((self.kolor_czcionki-1)))        
     def funkcja_wyswietlacz_3(self,obj_licznik,obj_menu): #Max speed
         IPS.text(font_32, str(round(obj_licznik.v_max,1))+' Km/h' ,5    ,110,self.motyw_czcionki(self.kolor_czcionki))
         IPS.text(font_32, str(round(obj_licznik.v_max_podroz,1)) , 5    ,150,self.motyw_czcionki((self.kolor_czcionki-1)))
@@ -653,7 +648,8 @@ class Display():
             a = len(str(obj_menu.interwal_dystans_funkcja(obj_licznik)))
             if obj_menu.zmiana_liczb != a:
                 IPS.fill_rect(105,150,80,34, st7789.BLACK)
-            IPS.text(font_32,str(obj_menu.interwal_dystans_funkcja(obj_licznik)),int(145- a *8 ),152,gold)           
+            tekst = str(obj_menu.interwal_dystans_funkcja(obj_licznik))
+            IPS.text(font_32,tekst,int(145- a *8 ),152,gold)           
             obj_menu.zmiana_liczb = a
             
         ###=== Część odpowiedzialna za pokazanie grafiki ===###            
@@ -665,10 +661,6 @@ class Display():
     def interwal_dstans_czyszczenie(self,obj_menu):
         if obj_menu.dodatkowe_czyszczenie == True:
             IPS.fill(st7789.BLACK)
-            if not hasattr(self, 'kadencja_i_predkosc_dystans'):
-                self.kadencja_i_predkosc_dystans = True
-            if self.kadencja_i_predkosc_dystans == True:
-                print('Dzialam tylko raz albo 2') 
             obj_menu.dodatkowe_czyszczenie = False 
         IPS.rect(0,185,320,55,st7789.color565(20,20,20))
         IPS.rect(1,186,318,53,st7789.color565(20,20,20))
@@ -712,6 +704,7 @@ class Display():
         ###=== Część odpowiedzialna za pokazanie czasu ===###
         if obj_menu.interwal_czasowy(obj_licznik) == -1:
             IPS.fill_rect(145,173,62,34, st7789.BLACK)
+            
         elif obj_menu.interwal_czasowy(obj_licznik) == -2:
             obj_menu.podsumowanie = True    # Włączamy przycisk
             self.podsumowanie_interwalu(obj_menu,obj_licznik, 1)
@@ -719,7 +712,12 @@ class Display():
             a = len(str(obj_menu.interwal_czasowy(obj_licznik)))
             if obj_menu.zmiana_liczb != a:
                 IPS.fill_rect(145,173,62,34, st7789.BLACK)
-            IPS.text(font_32,str(obj_menu.interwal_czasowy(obj_licznik)),int(175- a *8 ),174,gold)           
+                
+            tekst = str(obj_menu.interwal_czasowy(obj_licznik))
+            if tekst == '-1':
+                pass
+            else:
+                IPS.text(font_32,str(obj_menu.interwal_czasowy(obj_licznik)),int(175- a *8 ),174,gold)           
             obj_menu.zmiana_liczb = a
             
         ###=== Część odpowiedzialna za pokazanie grafiki ===###            
@@ -729,11 +727,7 @@ class Display():
     @micropython.native 
     def interwal_czas_czyszczenie(self,obj_menu):     
         if obj_menu.dodatkowe_czyszczenie == True:
-            IPS.fill(st7789.BLACK)
-            if not hasattr(self, 'kadencja_i_predkosc_czas'):
-                self.kadencja_i_predkosc_czas = True
-            if self.kadencja_i_predkosc_czas == True:
-                print('Dzialam, tylko raz')            
+            IPS.fill(st7789.BLACK)         
             obj_menu.dodatkowe_czyszczenie = False
         IPS.fill_circle(175,188,50,st7789.color565(20,20,20))
         IPS.fill_circle(175,188,36,st7789.BLACK)
@@ -778,115 +772,136 @@ class Display():
         obj_menu.deadline_interwal = time.ticks_ms()  # Ustawienie aktualnego czasu do odmierzania buzzera 
         obj_menu.buzzer_interwal(3)                   # Wywołanie buzzera (niech już gra :)
         obj_menu.flaga_buzzer = True                  # Ustawienie flagi na True, aby wykonywała się w While
-        obj_menu.zmiana_przycisk = True                   # Aby od razu wyświetliły się dane 
- 
+        obj_menu.zmiana_przycisk = True               # Aby od razu wyświetliły się dane 
+        obj_menu.przycisk = obj_menu.przycisk + 1
             ##== Przypisanie zmiennym lokalnym wartości ==##
-        kolor_napis = st7789.color565(179 , 139 , 91 )# Zmienna lokalna (gold)
+        kolor_napis = gold
         if rodzaj == 1:
                 #= Suma to ilosc przebytej drogi podczas interwału czasowego (w metrach) =#
             suma = sum(obj_menu.przejechany_dystans)*obj_licznik.obwod_kola/1000 
         elif rodzaj ==2:
                 #= Suma to czas w jakim przejechane zostały interwały dystansowe (w sekundach) =#
-            suma = sum(obj_menu.dlugosc_interwalu)/1000 
-            
+            suma = sum(obj_menu.dlugosc_interwalu)/1000   
         while True:
+            # Realizacaj funkcji przyciskow w podsumoaniu 
+            if obj_menu.alrm_przycisk_1 == True:
+                if time.ticks_diff(time.ticks_ms(), obj_menu.prev_time_butt_1) > 20 and obj_menu.Przycisk_1_Pin.value() == 1:
+                    obj_menu.funkcja_przycisku_1()
+                    obj_menu.alrm_przycisk_1 = False
+                    
+            if obj_menu.alrm_przycisk_2 == True :
+                if time.ticks_diff(time.ticks_ms(), obj_menu.prev_time_butt_2) > 20 and obj_menu.Przycisk_2_Pin.value() == 1:
+                    obj_menu.funkcja_przycisku_2()
+                    obj_menu.alrm_przycisk_2 = False         
+            
             ##== Buzzer na zakończenie interwału ==##
             if obj_menu.flaga_buzzer == True:
                 obj_menu.buzzer_interwal(3)              
             ##== Warunek wyjścia z while  ==##
-            if obj_menu.przytrzymanie_przycisku(1,1200) == 1 or obj_menu.przytrzymanie_przycisku(2,1200) == 2:           
+            if any(obj_menu.przytrzymanie_przycisku(x,500) for x in [1,2,3]):          
                 obj_menu.reset_interwalu()     # Resetujemy dane z interwału 
                 obj_menu.wyjscie_z_menu()      # Resetujemy dane z menu ( just in case,  i na pewno wracamy do głównego wyświetlania)
                 self.wejscie = True            # Ustawiamy flagę wejścia na True 
                 break
             ##== Pokazanie danych ==##
-            else:
+            else:        
                 #== Rysujemy tylko, gdy przycisk został naciśnięty ==#
-                if obj_menu.zmiana_przycisk == True:         
-                    self.konutry_intrwal(st7789.color565(150,110,71),obj_menu)    # Rysowanie konturów interwału 
+                if obj_menu.zmiana_przycisk == True:
+                    total_kontury = False  
+                    IPS.fill(st7789.BLACK)
                     if obj_menu.podsumowanie_interwalu_przycisk >= obj_menu.ilosc_cykli - 3:  # Na samym dole jest podsumowanie 
                         if rodzaj == 1: # Interwał czasowy '
                             IPS.text(font_32,'Total '+ str(round(suma))+ '   ' + str(round(suma*3.6/(obj_menu.interwal_czas*obj_menu.ilosc_cykli),1)) ,
                                   0,204 ,kolor_napis)
                         elif rodzaj == 2: # Interwał dystansowy
                             IPS.text(font_32,'Total '+ str(round(suma))+ 's  ' + str(round(obj_menu.ilosc_cykli*obj_menu.interwal_dystans*3.6/suma,1)) ,
-                                  0,204 ,kolor_napis)                      
-                    przesuniecie = 40    
-                    prog_1 = 4-(obj_menu.podsumowanie_interwalu_przycisk *przesuniecie)
-                    prog_2 = 44-(obj_menu.podsumowanie_interwalu_przycisk *przesuniecie)
-                    ###=== Nanoszenie podstawowoych infomacji na odpowiednią wysokość ===###
-                    if rodzaj == 1: # Interwał czasowy 
-                        IPS.text(font_32,'Czas: ' + str(obj_menu.interwal_czas),0,prog_1,kolor_napis)
-                        IPS.text(font_32,'Pauza: ' + str(obj_menu.interwal_pause),160,prog_1,kolor_napis)                                      
-                        IPS.text(font_32,'Nr',        4   ,prog_2   ,kolor_napis)
-                        IPS.text(font_32,'Dys[m]',    60  ,prog_2   ,kolor_napis)
-                        IPS.text(font_32,'Avg Km/h', 180  ,prog_2   ,kolor_napis)                        
-                
-                    elif rodzaj ==2: #Interwał dystansowy
-                        IPS.text(font_32,'Dys: ' + str(obj_menu.interwal_dystans),0,prog_1            ,kolor_napis)
-                        IPS.text(font_32,'Pauza: ' + str(obj_menu.interwal_dystans_pause),160,prog_1  ,kolor_napis)
-                        IPS.text(font_32,'Nr',        4   ,prog_2   ,kolor_napis)
-                        IPS.text(font_32,'Czas[s]',      52  ,prog_2   ,kolor_napis)
-                        IPS.text(font_32,'Avg Km/h', 180  ,prog_2   ,kolor_napis)
-                        
-                    ###=== Wyświetlanie statystyk ===###
-                    for numer in range(obj_menu.ilosc_cykli):
-                        #==  Warunki z odpowiednią wyskością =#
-                        if obj_menu.podsumowanie_interwalu_przycisk <= 2:
-                            wysokosc = 84 +(numer-obj_menu.podsumowanie_interwalu_przycisk )*40 
-                        elif obj_menu.podsumowanie_interwalu_przycisk >= 3:
-                            wysokosc = 4 +(numer*40)
-                        #= Warunek, żeby nie nadpisywało ostatniej wartości z listy na ostatnią wyśweitlaną pozycję =#
-                        if wysokosc > 204:
-                            break 
-                        #= Konieczny warunek, ponieważ najpierw chcemy przesunąć wszystko o 2 do góry a dopiero potem 'scrollowac' =#
-                        if obj_menu.podsumowanie_interwalu_przycisk >= 3:
-                              numer += obj_menu.podsumowanie_interwalu_przycisk  -2  # -2 bo bo po 3 kliknięciu chcemy przesunąć o 1 etc..                 
-                        if numer >= obj_menu.ilosc_cykli:
-                            break
-                        IPS.text(font_32    ,str(numer+1)   ,10      ,wysokosc  ,kolor_napis)
-                        #= Poszczególne dane z interwału =#
-                        if rodzaj == 1: # Interwał czasowy
-                            dystans = str(round(obj_menu.przejechany_dystans[numer]*obj_licznik.obwod_kola/1000))
-                            srednia = str(round((obj_menu.przejechany_dystans[numer]*obj_licznik.obwod_kola*3.6)/(1000*obj_menu.interwal_czas ),1))
-                            IPS.text(font_32    ,dystans       ,int(105 - len(dystans)*8)    ,wysokosc  ,kolor_napis)
-                            IPS.text(font_32    ,srednia       ,int(240 - len(srednia)*8)    ,wysokosc  ,kolor_napis)   
-                        
-                    
-                        elif rodzaj ==2: #Interwał dystansowy
-                            czas = str(round(obj_menu.dlugosc_interwalu[numer]/1000))
-                            srednia =str(round(obj_menu.interwal_dystans*3.6/(obj_menu.dlugosc_interwalu[numer]/1000),1))
-                            IPS.text(font_32    ,czas          ,int(105 - len(czas)*8)       ,wysokosc  ,kolor_napis)
-                            IPS.text(font_32    ,srednia       ,int(240 - len(srednia)*8)    ,wysokosc  ,kolor_napis)                               
-
-                     
+                                  0,204 ,kolor_napis)
+                        total_kontury = True          
+                    ###=== Rysowanie konturów interwału ===###
+                    self.konutry_intrwal(st7789.color565(150,110,71),obj_menu,total_kontury)     
+                    ###=== Wyświetlanie podstawowych statystyk ===###
+                    self.nanoszenie_info_interwal(kolor_napis,obj_menu,rodzaj)
+                    ###=== Wyświetlanie głównych statystyk ===###
+                    self.nanoszenie_glowne_info_interwal(kolor_napis,obj_menu,rodzaj,obj_licznik)
                     obj_menu.zmiana_przycisk = False
                     gc.collect()
                     
                 else:
                     pass
-                               
-       
-    def konutry_intrwal( self, kolor,obj_menu):
-        IPS.fill(st7789.BLACK)
-        if obj_menu.podsumowanie_interwalu_przycisk == 0:
-            pass
-        elif obj_menu.podsumowanie_interwalu_przycisk != 0:
-            IPS.vline(40, 0, 40, kolor)
-            IPS.vline(170, 0, 40, kolor)           
-        if obj_menu.podsumowanie_interwalu_przycisk >= obj_menu.ilosc_cykli - 3:
+
+
+    def konutry_intrwal( self, kolor,obj_menu,total_kontury):         
+        if obj_menu.podsumowanie_interwalu_przycisk == 0 and total_kontury == False:
             IPS.vline(40, 40, 200, kolor)
             IPS.vline(170, 40, 200, kolor)
-        elif obj_menu.podsumowanie_interwalu_przycisk < obj_menu.ilosc_cykli - 2: 
-            IPS.vline(40, 40, 240, kolor)
-            IPS.vline(170, 40, 240, kolor)
+        elif obj_menu.podsumowanie_interwalu_przycisk == 0 and total_kontury == True:
+            IPS.vline(40, 40, 160, kolor)
+            IPS.vline(170, 40, 160, kolor)
+        elif total_kontury:
+            IPS.vline(40, 0, 200, kolor)
+            IPS.vline(170, 0, 200, kolor)     
+        else:
+            IPS.vline(40, 0, 240, kolor)
+            IPS.vline(170, 0, 240, kolor)
           
         IPS.hline(0, 40, 320, kolor)
         IPS.hline(0, 80, 320, kolor)
         IPS.hline(0, 120, 320, kolor)
         IPS.hline(0, 160, 320, kolor)
         IPS.hline(0, 200, 320, kolor)
-        
     
+
+    def nanoszenie_info_interwal(self, kolor_napis,obj_menu,rodzaj):
+        prog_2 = 44-(obj_menu.podsumowanie_interwalu_przycisk *40)
+        if rodzaj == 1: # Interwał czasowy
+            if obj_menu.podsumowanie_interwalu_przycisk == 0:
+                IPS.text(font_32,'Czas: ' + str(obj_menu.interwal_czas),0,4,kolor_napis)
+                IPS.text(font_32,'Pauza: ' + str(obj_menu.interwal_pause),160,4,kolor_napis)                                         
+            if any(obj_menu.podsumowanie_interwalu_przycisk == x for x in [0,1]):
+                IPS.text(font_32,'Nr',        4   ,prog_2   ,kolor_napis)
+                IPS.text(font_32,'Dys[m]',    60  ,prog_2   ,kolor_napis)
+                IPS.text(font_32,'Avg Km/h', 180  ,prog_2   ,kolor_napis)                        
+    
+        elif rodzaj ==2: #Interwał dystansowy
+            if obj_menu.podsumowanie_interwalu_przycisk == 0:
+                IPS.text(font_32,'Dys: ' + str(obj_menu.interwal_dystans),0,4            ,kolor_napis)
+                IPS.text(font_32,'Pauza: ' + str(obj_menu.interwal_dystans_pause),160,4  ,kolor_napis)
+            if any(obj_menu.podsumowanie_interwalu_przycisk == x for x in [0,1]):
+                IPS.text(font_32,'Nr',        4   ,prog_2   ,kolor_napis)
+                IPS.text(font_32,'Czas[s]',   52  ,prog_2   ,kolor_napis)
+                IPS.text(font_32,'Avg Km/h', 180  ,prog_2   ,kolor_napis)
+                
+    def nanoszenie_glowne_info_interwal(self, kolor_napis,obj_menu,rodzaj,obj_licznik):
+        przesuniecie = 40
+        for numer in range(obj_menu.ilosc_cykli):
+            #==  Warunki z odpowiednią wyskością =#
+            if obj_menu.podsumowanie_interwalu_przycisk <= 2:
+                wysokosc = 84 +(numer-obj_menu.podsumowanie_interwalu_przycisk )*40 
+            elif obj_menu.podsumowanie_interwalu_przycisk >= 3:
+                wysokosc = 4 +(numer*40)
+            #= Warunek, żeby nie nadpisywało ostatniej wartości z listy na ostatnią wyśweitlaną pozycję =#
+            if wysokosc > 204:
+                break 
+            #= Konieczny warunek, ponieważ najpierw chcemy przesunąć wszystko o 2 do góry a dopiero potem 'scrollowac' =#
+            if obj_menu.podsumowanie_interwalu_przycisk >= 3:
+                  numer += obj_menu.podsumowanie_interwalu_przycisk  -2  # -2 bo bo po 3 kliknięciu chcemy przesunąć o 1 etc..                 
+            if numer >= obj_menu.ilosc_cykli:
+                break
+            IPS.text(font_32    ,str(numer+1)   ,10      ,wysokosc  ,kolor_napis)
+            #= Poszczególne dane z interwału =#
+            if rodzaj == 1: # Interwał czasowy
+                dystans = str(round(obj_menu.przejechany_dystans[numer]*obj_licznik.obwod_kola/1000))
+                srednia = str(round((obj_menu.przejechany_dystans[numer]*obj_licznik.obwod_kola*3.6)/(1000*obj_menu.interwal_czas ),1))
+                IPS.text(font_32    ,dystans       ,int(105 - len(dystans)*8)    ,wysokosc  ,kolor_napis)
+                IPS.text(font_32    ,srednia       ,int(240 - len(srednia)*8)    ,wysokosc  ,kolor_napis)   
+            
+        
+            elif rodzaj ==2: #Interwał dystansowy
+                czas = str(round(obj_menu.dlugosc_interwalu[numer]/1000))
+                srednia =str(round(obj_menu.interwal_dystans*3.6/(obj_menu.dlugosc_interwalu[numer]/1000),1))
+                IPS.text(font_32    ,czas          ,int(105 - len(czas)*8)       ,wysokosc  ,kolor_napis)
+                IPS.text(font_32    ,srednia       ,int(240 - len(srednia)*8)    ,wysokosc  ,kolor_napis)                               
+
+                     
 
     

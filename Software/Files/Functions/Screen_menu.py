@@ -11,8 +11,7 @@ spi = machine.SPI(0, 40000000, polarity=1, sck=machine.Pin(18), mosi=machine.Pin
 IPS = st7789.ST7789(spi, 240, 320, reset=Pin(21,Pin.OUT), dc=Pin(16, Pin.OUT),rotation = 3)
 IPS.init()    
 #################################################################################################
-gold =  st7789.color565(220 , 170 , 50 )
-
+gold =  st7789.color565(190 , 130 , 60 )
 
 class Display_menu():
     
@@ -444,8 +443,8 @@ class Display_menu():
             IPS.text(font_32,"Pauza",142,8,gold)            
             IPS.text(font_32,"500",60,53,gold)
             IPS.text(font_32,"1000",52,98,gold)
-            IPS.text(font_32,"500",157,53,gold)
-            IPS.text(font_32,"1000",149,98,gold)
+            IPS.text(font_32,"500",158,53,gold)
+            IPS.text(font_32,"1000",150,98,gold)
             
     def wyswietlanie_liczb_interwal(obj_Display,obj_Menu):
         okres = 550
@@ -462,7 +461,7 @@ class Display_menu():
                 obj_Display.mruganie_liczb = True
                 
             elif obj_Display.mruganie_liczb == True:
-                kolor = st7789.BLUE
+                kolor = st7789.BLACK
                 IPS.fill_rect(270,52, 16,32, kolor)
                 IPS.fill_rect(270,97, 16,32,kolor)
                 IPS.fill_rect(270,142, 16,32,kolor)
@@ -490,9 +489,9 @@ class Display_menu():
     def dane_interwalow(obj_Menu):
         if obj_Menu.warunek_ktory_wyswietlacz_menu ==2: # Interwał czosowy 
             IPS.text(font_32,str(obj_Menu.interwal_czas)    ,
-                     int(84 - len(str(obj_Menu.interwal_czas)*8 ))   ,143     ,gold)
+                     int(82 - len(str(obj_Menu.interwal_czas)*8 ))   ,143     ,gold)
             IPS.text(font_32,str(obj_Menu.interwal_pause)
-                     ,int(184 - len(str(obj_Menu.interwal_pause)*8))  ,143     ,gold)
+                     ,int(180 - len(str(obj_Menu.interwal_pause)*8))  ,143     ,gold)
             
         elif obj_Menu.warunek_ktory_wyswietlacz_menu ==3: # Interwał dystansowy
             if obj_Menu.interwal_dystans < 10000:
@@ -504,9 +503,9 @@ class Display_menu():
                 
             if obj_Menu.interwal_dystans_pause <10000:
                 IPS.text(font_32,str(obj_Menu.interwal_dystans_pause)    ,
-                         int(184- len(str(obj_Menu.interwal_dystans_pause))*8)  ,143     ,gold)
+                         int(182- len(str(obj_Menu.interwal_dystans_pause))*8)  ,143     ,gold)
             else:
                 IPS.text(font_32,str(int(obj_Menu.interwal_dystans_pause/1000)) +'km'    ,
-                         int(192- len(str(obj_Menu.interwal_dystans_pause))*8)  ,143     ,gold)                        
+                         int(190- len(str(obj_Menu.interwal_dystans_pause))*8)  ,143     ,gold)                        
                         
         

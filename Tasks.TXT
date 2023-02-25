@@ -1,18 +1,12 @@
-SOBOTA:
-1 POPRAWNE WYSWIETLANIE KADENCJI I PREDKOSCI W PRZYPADKU INTERWAŁOW 
-wielokrotnie i kuloodpornie bo mozna wchodzic do menu jeszcze 
-PODSUMOWANIE NIE SCROLLUJE SIE 
+1 Poprawne wyswietlanie kadencji i predkosci rownej 0 dla interwalow 
+	wielokrotnie i kuloodpornie bo mozna wchodzic do menu jeszcze 
 
-2. przy wyjsciu z menu trzbe resetowac ustawienia interwałów własnych 
-
-3. przesunac w prawo pokazywanie usawionej odległości w interwale dystansowym
-
-NIEDZIELA
-3 ogarnięcie programowania na 2 corach	(Podstawy, jakiś obiekt co coś oblicza, dzili się danymi, wyświelta, printuje)
+2 ogarnięcie programowania na 2 corach	
+(Podstawy, jakiś obiekt co coś oblicza, dzili się danymi, wyświelta, printuje)
 
 Zmiana programu gdy przyjdzie płydka:	
-5.	Zmiana pinoutów pod płytkę PCB 
-6.  Dodać sterowanie pinem w celu wyłączania ekranu 
+	Zmiana pinoutów pod płytkę PCB 
+    Dodać sterowanie pinem w celu wyłączania ekranu 
 	
 
 Rozpisać scenariusze oraz ustalić trasę [0/1]	
