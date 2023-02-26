@@ -32,7 +32,7 @@ Licznik.odliczanie = 0
 
         ########## Zmienne do liczenia kadencji  ##########
 Licznik.CadencePin = machine.Pin(13, machine.Pin.IN, machine.Pin.PULL_UP)  #Zestyk kontraktonu do zliczania kadencji jazdy
-Licznik.current_cadence = 20      # Aktualna kadencja 
+Licznik.current_cadence = 0      # Aktualna kadencja 
 Licznik.prev_time_cadence        # Zmienna do debouncingu
 Licznik.cadence_odliczanie = 0   # Zmienna odliczająca wymaganą ilość obortów kroby 
 Licznik.finish_cadence = 0       # Zmienna przechowująca aktualny czas po zliczeniu wymaganych obrotów koła 
@@ -255,6 +255,7 @@ if __name__=='__main__':
 #                 Licznik.zapis_zmiennej()
 #                 ##
                 
+ 
                 Licznik.rtc_czas()
                 Licznik.zapis_do_pliku()               
                 Licznik.flaga_czas = False

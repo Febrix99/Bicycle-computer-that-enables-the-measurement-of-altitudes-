@@ -40,7 +40,6 @@ class Display():
 #================================ PODSTAWOWE WYSWIETLANIE =============================================#        
     ##======= Wybór Funkcji podstawowej ==============##
     def screen(self,obj_menu,obj_licznik):
-
         ###=== Interwały ===###
         if obj_menu.interwal_czas_start_0 == True:
             self.interwal_czas(obj_menu,obj_licznik)
@@ -220,14 +219,14 @@ class Display():
     def show_cadence(self, cadence,zmiana_przycisk):
         if self.wyswietlana_cadence != cadence or zmiana_przycisk ==True:
             showCadence = round(cadence)
-            if showCadence < showCadence:
+            if showCadence < 10:
                 x_prim = 1
             elif showCadence < 100 and showCadence > 10:
                 x_prim = 2
             else:
                 x_prim = 3
                 
-            x  = int(240 - x_prim*14)    
+            x  = int(273 - x_prim*18)    
             if not hasattr(self, 'poprzednie_x'):
                 self.poprzednie_x = x
             IPS.draw(romand, str(round(self.wyswietlana_cadence)),self.poprzednie_x , 138, st7789.BLACK, 1.8)
@@ -241,7 +240,7 @@ class Display():
         if self.wyswietlana_cadence_speedometer != cadence or obj_menu.powrot_menu == True:
 
             showCadence = round(cadence)
-            if showCadence < showCadence:
+            if showCadence < 10:
                 x_prim = 1
             elif showCadence < 100 and showCadence > 10:
                 x_prim = 2
@@ -249,21 +248,23 @@ class Display():
                 x_prim = 3
                 
             if obj_menu.interwal_czas_start_0 == True:
-                x = int(270 - x_prim*10)
+                x = int(275 - x_prim*14)
+                size = 1.4
                 if obj_menu.powrot_menu == True:
                     self.poprzednie_x_1 = x
-                IPS.draw(romand, str(round(self.wyswietlana_cadence_speedometer)),self.poprzednie_x_1 , 212, st7789.BLACK, 1.4)
-                IPS.draw(romand, str(showCadence), x, 212, self.motyw_czcionki(self.kolor_czcionki), 1.4)
+                IPS.draw(romand, str(round(self.wyswietlana_cadence_speedometer)),self.poprzednie_x_1 , 212, st7789.BLACK, size)
+                IPS.draw(romand, str(showCadence), x, 212, self.motyw_czcionki(self.kolor_czcionki), size)
                                
             elif obj_menu.interwal_dystans_start_0 == True:
-                x = int(210 - x_prim*10)
+                x = int(225 - x_prim*13)
+                size = 1.3
                 if obj_menu.powrot_menu == True:
                     self.poprzednie_x_1 = x
-                IPS.draw(romand, str(round(self.wyswietlana_cadence_speedometer)), self.poprzednie_x_1, 167, st7789.BLACK, 1.3)   
-                IPS.draw(romand, str(showCadence), x, 167, self.motyw_czcionki(self.kolor_czcionki), 1.3)                       
+                IPS.draw(romand, str(round(self.wyswietlana_cadence_speedometer)), self.poprzednie_x_1, 167, st7789.BLACK, size)   
+                IPS.draw(romand, str(showCadence), x, 167, self.motyw_czcionki(self.kolor_czcionki), size)                       
                 
             else:
-                x  = int(160 - x_prim*13)
+                x  = int(160 - x_prim*17)
                 size = 1.7
                 if not hasattr(self, 'poprzednie_x_1'):
                     self.poprzednie_x_1 = x
@@ -275,7 +276,7 @@ class Display():
             pass
     def clear_interwal_czas(kolor):
         IPS.fill_rect(0,0,320,132,kolor)
-        IPS.fill_rect(240,193,80,38,kolor)
+        IPS.fill_rect(235,193,85,38,kolor)
         IPS.fill_rect(0,132,120,108,kolor)
         IPS.fill_rect(120,109,30,30, kolor)
         IPS.fill_rect(220,115,100,42,kolor)
@@ -581,6 +582,7 @@ class Display():
             GREEN = 196 
             BLUE  = 48 
         return RED,GREEN,BLUE
+    
     @micropython.native
     def kolor_smugi_2(wybor, arg, RED, GREEN, BLUE):
         # arg [0 - 36] do fade smugi
@@ -661,69 +663,7 @@ class Display():
   
                    
 #===================================== INTERWAŁY ====================================================#
-    
-    @micropython.native 
-    def interwal_dstans(self,obj_menu,obj_licznik):
-        ###=== Część odpowiedzialna czyszczenie danych po cyklu ===###
-        if obj_menu.czyszczenie == True:
-            self.interwal_dstans_czyszczenie(obj_menu)
-     
-        ###=== Buzzer po przejechaniu cyklu (Zakkończenie i rozpoczecie nowego ===###        
-        if obj_menu.flaga_buzzer ==  True and obj_menu.interwal_dystans_start_1 == True:
-            obj_menu.buzzer_interwal(2)
-            
-        ###=== Część odpowiedzialna za pokazanie dystansu ===###
-        if obj_menu.interwal_dystans_funkcja(obj_licznik) == -1:
-            IPS.fill_rect(105,150,80,34, st7789.BLACK)
-        elif obj_menu.interwal_dystans_funkcja(obj_licznik) == -2:
-            obj_menu.podsumowanie = True    #Włączamy przycisk
-            self.podsumowanie_interwalu(obj_menu,obj_licznik, 2) 
-        else:
-            
-            a = len(str(obj_menu.interwal_dystans_funkcja(obj_licznik)))
-            if obj_menu.zmiana_liczb != a:
-                IPS.fill_rect(105,150,80,34, st7789.BLACK)
-            tekst = str(obj_menu.interwal_dystans_funkcja(obj_licznik))
-            IPS.text(font_32,tekst,int(145- a *8 ),152,gold)           
-            obj_menu.zmiana_liczb = a
-            
-        ###=== Część odpowiedzialna za pokazanie grafiki ===###            
-        if obj_menu.interwal_dystans_start_1 == True:
-            self.interwal_dstans_grafika(obj_menu,obj_licznik)
-            
-            
-    @micropython.native 
-    def interwal_dstans_czyszczenie(self,obj_menu):
-        if obj_menu.dodatkowe_czyszczenie == True:
-            IPS.fill(st7789.BLACK)
-            obj_menu.dodatkowe_czyszczenie = False 
-        IPS.rect(0,185,320,55,st7789.color565(20,20,20))
-        IPS.rect(1,186,318,53,st7789.color565(20,20,20))
-        IPS.rect(2,187,316,51,st7789.color565(20,20,20))
-        IPS.fill_rect(3,188,314,49,st7789.color565(20,20,20))
-        obj_menu.Odmierzanie_grafiki = 0
-        obj_menu.czyszczenie = False
-        if obj_menu.interwal_dystans_start_1 == True:
-            obj_menu.deadline_interwal = time.ticks_ms()
-            obj_menu.flaga_buzzer =  True
-            
-    @micropython.native
-    def interwal_dstans_grafika(self,obj_menu,obj_licznik):
-        if obj_menu.cykle  %2 == 1:
-            if  obj_menu.odliczanie *obj_licznik.obwod_kola/1000 <  obj_menu.interwal_dystans  * (1 - obj_menu.Odmierzanie_grafiki /314):
-                obj_menu.Odmierzanie_grafiki += 1                     # Przesunięcie się o jedą pozycje dalej           
-                pozycja_kolor = 255 *obj_menu.Odmierzanie_grafiki/314  # Wyliczenie argumentu od koloru 
-                IPS.vline(2 + obj_menu.Odmierzanie_grafiki , 188, 49
-                          ,self.kolor_obreczy_i_int(self.wybor_motywu_dyst,pozycja_kolor))
-                
-        elif obj_menu.cykle %2 == 0:
-            if  obj_menu.odliczanie *obj_licznik.obwod_kola/1000 <  obj_menu.interwal_dystans_pause  * (1 - obj_menu.Odmierzanie_grafiki /314):
-                obj_menu.Odmierzanie_grafiki += 1                      # Przesunięcie się o jedą pozycje dalej 
-                
-                pozycja_kolor = 255 *obj_menu.Odmierzanie_grafiki/314  # Wyliczenie argumentu od koloru 
-                IPS.vline(2 + obj_menu.Odmierzanie_grafiki , 188, 49
-                          ,self.kolor_obreczy_i_int(self.wybor_motywu_dyst,pozycja_kolor))
-                   
+
         
     @micropython.native            
     def interwal_czas(self,obj_menu,obj_licznik):
@@ -800,6 +740,72 @@ class Display():
         #Rysowanie 2 lini pomiędzy obręczami jeden pixel na y niżej aby wypełnić całość 
         IPS.line(x_sin_z , y_cos_z-1  ,x_sin_w , y_cos_w-1, kolor)          
 
+    
+    @micropython.native 
+    def interwal_dstans(self,obj_menu,obj_licznik):
+        ###=== Część odpowiedzialna czyszczenie danych po cyklu ===###
+        if obj_menu.czyszczenie == True:
+            self.interwal_dstans_czyszczenie(obj_menu)
+     
+        ###=== Buzzer po przejechaniu cyklu (Zakkończenie i rozpoczecie nowego ===###        
+        if obj_menu.flaga_buzzer ==  True and obj_menu.interwal_dystans_start_1 == True:
+            obj_menu.buzzer_interwal(2)
+            
+        ###=== Część odpowiedzialna za pokazanie dystansu ===###
+        if obj_menu.interwal_dystans_funkcja(obj_licznik) == -1:
+            IPS.fill_rect(111,150,76,34, st7789.BLACK)
+        elif obj_menu.interwal_dystans_funkcja(obj_licznik) == -2:
+            obj_menu.podsumowanie = True    #Włączamy przycisk
+            self.podsumowanie_interwalu(obj_menu,obj_licznik, 2) 
+        else:
+            
+            a = len(str(obj_menu.interwal_dystans_funkcja(obj_licznik)))
+            if obj_menu.zmiana_liczb != a:
+                IPS.fill_rect(111,150,76,34, st7789.BLACK)
+            tekst = str(obj_menu.interwal_dystans_funkcja(obj_licznik))
+            if tekst == '-1':
+                pass
+            else:    
+                IPS.text(font_32,tekst,int(149- a *8 ),152,gold)           
+                obj_menu.zmiana_liczb = a
+            
+        ###=== Część odpowiedzialna za pokazanie grafiki ===###            
+        if obj_menu.interwal_dystans_start_1 == True:
+            self.interwal_dstans_grafika(obj_menu,obj_licznik)
+            
+            
+    @micropython.native 
+    def interwal_dstans_czyszczenie(self,obj_menu):
+        if obj_menu.dodatkowe_czyszczenie == True:
+            IPS.fill(st7789.BLACK)
+            obj_menu.dodatkowe_czyszczenie = False 
+        IPS.rect(0,185,320,55,st7789.color565(20,20,20))
+        IPS.rect(1,186,318,53,st7789.color565(20,20,20))
+        IPS.rect(2,187,316,51,st7789.color565(20,20,20))
+        IPS.fill_rect(3,188,314,49,st7789.color565(20,20,20))
+        obj_menu.Odmierzanie_grafiki = 0
+        obj_menu.czyszczenie = False
+        if obj_menu.interwal_dystans_start_1 == True:
+            obj_menu.deadline_interwal = time.ticks_ms()
+            obj_menu.flaga_buzzer =  True
+            
+    @micropython.native
+    def interwal_dstans_grafika(self,obj_menu,obj_licznik):
+        if obj_menu.cykle  %2 == 1:
+            if  obj_menu.odliczanie *obj_licznik.obwod_kola/1000 <  obj_menu.interwal_dystans  * (1 - obj_menu.Odmierzanie_grafiki /314):
+                obj_menu.Odmierzanie_grafiki += 1                     # Przesunięcie się o jedą pozycje dalej           
+                pozycja_kolor = 255 *obj_menu.Odmierzanie_grafiki/314  # Wyliczenie argumentu od koloru 
+                IPS.vline(2 + obj_menu.Odmierzanie_grafiki , 188, 49
+                          ,self.kolor_obreczy_i_int(self.wybor_motywu_dyst,pozycja_kolor))
+                
+        elif obj_menu.cykle %2 == 0:
+            if  obj_menu.odliczanie *obj_licznik.obwod_kola/1000 <  obj_menu.interwal_dystans_pause  * (1 - obj_menu.Odmierzanie_grafiki /314):
+                obj_menu.Odmierzanie_grafiki += 1                      # Przesunięcie się o jedą pozycje dalej 
+                
+                pozycja_kolor = 255 *obj_menu.Odmierzanie_grafiki/314  # Wyliczenie argumentu od koloru 
+                IPS.vline(2 + obj_menu.Odmierzanie_grafiki , 188, 49
+                          ,self.kolor_obreczy_i_int(self.wybor_motywu_dyst,pozycja_kolor))
+                   
 
     def podsumowanie_interwalu(self,obj_menu,obj_licznik, rodzaj): #interwal jest od rodzaju interwału
         ###== Ta część wykonuje się jednorazowo ==###

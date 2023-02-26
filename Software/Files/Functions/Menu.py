@@ -355,33 +355,49 @@ class Menu():
             if self.wybor_w_menu_interwal == 0:
                 if self.interwal_czas <= 5:
                     self.interwal_czas = 5
-                if self.interwal_czas < 120 :
+                if self.interwal_czas < 90 :
                     if self.interwal_czas == 5 and ope.__name__ == 'sub':
                         pass
                     else:
                         self.interwal_czas = ope(self.interwal_czas, 5)      
-                elif self.interwal_czas >= 120 and self.interwal_czas < 240:
-                    self.interwal_czas = ope(self.interwal_czas,15 ) 
+                elif self.interwal_czas >= 90 and self.interwal_czas < 240:
+                    self.interwal_czas = ope(self.interwal_czas,10 ) 
                 elif self.interwal_czas >= 240 and self.interwal_czas < 600:
                     self.interwal_czas = ope(self.interwal_czas,30 ) 
-                elif self.interwal_czas >= 600: 
-                    self.interwal_czas = ope(self.interwal_czas, 60) 
+                elif self.interwal_czas >= 600 and self.interwal_czas < 1500:
+                    self.interwal_czas = ope(self.interwal_czas, 60)
+                elif self.interwal_czas >= 1500 and self.interwal_czas < 9900:
+                    self.interwal_czas = ope(self.interwal_czas, 300)
+                elif self.interwal_czas >= 9900:
+                    if ope.__name__ == 'add':
+                        pass
+                    else:
+                        self.interwal_czas = ope(self.interwal_czas, 300)  
+     
+                    
                     
             elif self.wybor_w_menu_interwal == 1:
                 if self.interwal_pause <= 5:
                     self.interwal_pause = 5
-                if self.interwal_pause < 120:
+                if self.interwal_pause < 90:
                     if self.interwal_pause == 5 and ope.__name__ == 'sub':
                         pass
                     else:
                         self.interwal_pause = ope(self.interwal_pause, 5)
-                elif self.interwal_pause >= 120 and self.interwal_pause < 240:
-                    self.interwal_pause = ope(self.interwal_pause, 15)
+                elif self.interwal_pause >= 90 and self.interwal_pause < 240:
+                    self.interwal_pause = ope(self.interwal_pause, 10)
                 elif self.interwal_pause >= 240 and self.interwal_pause < 600:
                     self.interwal_pause = ope(self.interwal_pause, 30)
-                elif self.interwal_pause >= 600: 
+                elif self.interwal_pause >= 600 and self.interwal_pause < 1500:
                     self.interwal_pause = ope(self.interwal_pause, 60)
-                    
+                elif self.interwal_pause >= 1500 and self.interwal_pause < 9900:
+                    self.interwal_pause = ope(self.interwal_pause, 300)
+                elif self.interwal_pause >= 9900:
+                    if ope.__name__ == 'add':
+                        pass
+                    else:
+                        self.interwal_pause = ope(self.interwal_pause, 300)  
+
             elif self.wybor_w_menu_interwal == 2:
                 self.przycisk = ope(self.przycisk,1)
                 self.ilosc_cykli = self.przycisk  % 9 +1
@@ -403,9 +419,14 @@ class Menu():
                     self.interwal_dystans = ope(self.interwal_dystans, 500) 
                 elif self.interwal_dystans >= 10_000 and self.interwal_dystans < 20_000:
                     self.interwal_dystans = ope(self.interwal_dystans, 1000) 
-                elif self.interwal_dystans >= 20_000:
+                elif self.interwal_dystans >= 20_000 and self.interwal_dystans < 95_000:
                     self.interwal_dystans = ope(self.interwal_dystans, 5000) 
-                    
+                elif self.interwal_dystans >= 95_000:
+                    if ope.__name__ == 'add':
+                        pass
+                    else:
+                        self.interwal_dystans = ope(self.interwal_dystans, 5000)                      
+                        
             elif self.wybor_w_menu_interwal == 1:
                 if self.interwal_dystans_pause <= 10:
                     self.interwal_dystans_pause = 10
@@ -422,8 +443,13 @@ class Menu():
                     self.interwal_dystans_pause =ope(self.interwal_dystans_pause , 500) 
                 elif self.interwal_dystans_pause >= 10_000 and self.interwal_dystans_pause < 20_000:
                     self.interwal_dystans_pause =ope(self.interwal_dystans_pause , 1000) 
-                elif self.interwal_dystans_pause >= 20_000:
-                    self.interwal_dystans_pause =ope(self.interwal_dystans_pause , 5000) 
+                elif self.interwal_dystans_pause >= 20_000 and self.interwal_dystans_pause < 95_000:
+                    self.interwal_dystans_pause = ope(self.interwal_dystans_pause, 5000) 
+                elif self.interwal_dystans_pause >= 95_000:
+                    if ope.__name__ == 'add':
+                        pass
+                    else:
+                        self.interwal_dystans_pause = ope(self.interwal_dystans_pause, 5000)    
                     
             elif self.wybor_w_menu_interwal == 2:  
                 self.przycisk = ope(self.przycisk,1)
@@ -579,7 +605,7 @@ class Menu():
             if self.odliczanie > 0:
                 return int(self.odliczanie)
             elif self.odliczanie <= 0:
-                obj_menu.ustawienie_danych = False
+                self.ustawienie_danych = False
                 return -1
 
     def interwal_dystans_funkcja(self, obj_licznik):
