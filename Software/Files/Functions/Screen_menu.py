@@ -19,7 +19,6 @@ class Display_menu():
     
     ##======= Funkcje w menu ==============##
     def menu(obj_Display,obj_Menu,obj_licznik):
-     
         if obj_Menu.warunek_ktory_wyswietlacz_menu==0:
             if obj_Display.wejscie == False: #Jeżeli wyszliśmy z funkcji #Spedometer to czyścimy jednorazowo screena
                 gc.collect() # Just in case, bo nie ma framebuffera  

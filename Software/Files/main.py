@@ -31,7 +31,7 @@ Licznik.prev_time = 0 # Zmienna do debouncingu
 Licznik.odliczanie = 0
 
         ########## Zmienne do liczenia kadencji  ##########
-Licznik.CadencePin = machine.Pin(13, machine.Pin.IN, machine.Pin.PULL_UP)  #Zestyk kontraktonu do zliczania kadencji jazdy
+Licznik.CadencePin = machine.Pin(7, machine.Pin.IN, machine.Pin.PULL_UP)  #Zestyk kontraktonu do zliczania kadencji jazdy
 Licznik.current_cadence = 0      # Aktualna kadencja 
 Licznik.prev_time_cadence        # Zmienna do debouncingu
 Licznik.cadence_odliczanie = 0   # Zmienna odliczająca wymaganą ilość obortów kroby 
@@ -216,8 +216,6 @@ if __name__=='__main__':
 #                 ###       
                 Licznik.h_diff() # Wartość przewyższenia              
                 Licznik.flaga_h_diff = False
-           
-
 #         delta = time.ticks_diff(time.ticks_us(), start) # compute time difference
 #         print(delta)
 #         start = time.ticks_us() # get millisecond counter
@@ -315,7 +313,7 @@ if __name__=='__main__':
             Licznik.cadence_over_2s()
 ###============ Sleep Mode ==============================================================####
         ##======  Pójście spać jeżeli od ostatniej interakcji mineło więcej niż 'N's ===##        
-        if Licznik.time_beetwen > 2_000_000  and Obj_Menu.time_beetwen_interaction_przycisk > 20_000:
+        if Licznik.time_beetwen > 200_000  and Obj_Menu.time_beetwen_interaction_przycisk > 20_000:
             Licznik.spac = True       # Zmienna mówiąca, że jest się w fazie snu
             Obj_Menu.spac_menu = True # Zmienna mówiąca, że jest się w fazie snu
             Licznik.zapis_do_pliku()

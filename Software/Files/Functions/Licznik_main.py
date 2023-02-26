@@ -56,11 +56,13 @@ class Licznik_main(): #Główna funkcja
     
     @micropython.native
     def Kadencja(self, pin):
-        if time.ticks_diff(time.ticks_ms(), self.prev_time_cadence) > 80:
+        if time.ticks_diff(time.ticks_ms(), self.prev_time_cadence) > 100:
             
             self.prev_time_cadence =time.ticks_ms()  
             self.cadence_odliczanie += 1                               # Inkrementujemy zmienną co wykrycie obortu korbą 
-            if self.cadence_odliczanie % self.modulo_cadence == 0:     # Sprawdzamy, czy zmienna odliczyła już odpowiednią ilość 
+            x = self.cadence_odliczanie % self.modulo_cadence
+            if x == 0:     # Sprawdzamy, czy zmienna odliczyła już odpowiednią ilość 
+                
                 time_beetwen  = time.ticks_diff(time.ticks_ms() ,self.finish_cadence)  # Lokalna zmienna z czasem pomiędzy ostanim liczeniem aktualnej kadencji 
                 self.finish_cadence = time.ticks_ms()                                  # Starsza wartość czasu po zliczeniu impulsów        
                 self.current_cadence = self.modulo_cadence*60_000/time_beetwen         # Wyliczanie aktualnej kadencji 

@@ -185,7 +185,7 @@ class Display():
             else:
                 x = 210 if speed > 9 else 175
                 x_1 = 80 if speed > 9 else 110
-                wspolzedne_i_font_size = (x_1, 158, x, 142,3.2,1.8) # x1,y1,x2,y2,size1,size2
+                wspolzedne_i_font_size = (x_1, 157, x, 141,3.2,1.8) # x1,y1,x2,y2,size1,size2
                 
             if not hasattr(self, 'poprzednie_predkosci_1'):
                 self.poprzednie_predkosci_1 = (speed,zaokraglenie)
@@ -268,8 +268,8 @@ class Display():
                 size = 1.7
                 if not hasattr(self, 'poprzednie_x_1'):
                     self.poprzednie_x_1 = x
-                IPS.draw(romand, str(round(self.wyswietlana_cadence_speedometer)),self.poprzednie_x_1 , 217, st7789.BLACK, size)    
-                IPS.draw(romand, str(showCadence), x , 217, self.motyw_czcionki(self.kolor_czcionki), size)
+                IPS.draw(romand, str(round(self.wyswietlana_cadence_speedometer)),self.poprzednie_x_1 , 220, st7789.BLACK, size)    
+                IPS.draw(romand, str(showCadence), x , 220, self.motyw_czcionki(self.kolor_czcionki), size)
             self.wyswietlana_cadence_speedometer = cadence
             self.poprzednie_x_1 = x
         else:

@@ -195,11 +195,7 @@ class Menu():
         self.flaga_motywy_menu_1 = False
         self.powrot_menu = True 
         if self.interwal_czas_start_0 == False and self.interwal_dystans_start_0 == False:
-            self.ilosc_cykli = 4
-            self.interwal_dystans = 700       
-            self.interwal_dystans_pause = 500
-            self.interwal_czas = 30
-            self.interwal_pause = 60
+            self.reset_interwalu()
         if self.interwal_czas_start_1 == True or self.interwal_dystans_start_1 == True :
             self.reset_interwalu()
         elif self.interwal_czas_start_0 == True or self.interwal_dystans_start_0 == True :
@@ -235,24 +231,22 @@ class Menu():
         self.flaga_1_prog_menu = False
         self.przycisk = 0 #aby modulo działało jak należy
         self.zmiana_przycisk = True  
-        Obj_Display.wejscie_do_menu = True
+        Obj_Display.wejscie_do_menu = True      
         if self.wybor_w_menu == 0: #Zresetowanie podróży 
         #przypisanie ilości wyborów w kolejnym oknie menu
             self.ilosc_wyborow_w_menu = 2
             self.wybor_w_menu = 0 #ustawienie domyślengo wyboru na 1 wartość     
            
             
-        elif self.wybor_w_menu == 1: #interwał czasowy 
+        elif any(self.wybor_w_menu == x for x in [1,2]): #interwały
+            self.reset_interwalu()
             self.ilosc_wyborow_w_menu = 4
             self.wybor_w_menu = 0 #ustawienie domyślengo wyboru na 1 wartość     
                        
-        elif self.wybor_w_menu == 2: #interwał dystansowy 
-            self.ilosc_wyborow_w_menu = 4
-            self.wybor_w_menu = 0 #ustawienie domyślengo wyboru na 1 wartość
             
         elif self.wybor_w_menu == 3: #Customizowanie menu
             self.ilosc_wyborow_w_menu = 4 # To jest ilosc wyborow dla obreczy i wskaźnika
-            self.wybor_w_menu = 0    # Ustawienie domyślengo wyboru na 1 wartość     
+            self.wybor_w_menu = 0         # Ustawienie domyślengo wyboru na 1 wartość     
                    
         elif self.wybor_w_menu == 4: #wyjscie z menu 
             self.wyjscie_z_menu()
