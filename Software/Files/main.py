@@ -182,6 +182,8 @@ Obj_Display.deadline = 0                  # Zmienna odmierzająca czas od mrugan
 
 # Zmienne globalne # 
 Flaga_start = True    # Zmienna realizujaca funkcję startową
+PNP_wyswietlacz = machine.Pin(21, machine.Pin.OUT)
+PNP_wyswietlacz.value(1)
 
 start  = 0
 
@@ -318,15 +320,12 @@ if __name__=='__main__':
             Obj_Menu.spac_menu = True # Zmienna mówiąca, że jest się w fazie snu
             Licznik.zapis_do_pliku()
             Obj_Menu.wyjscie_z_menu()
-            #- Miejsce na wylaczenie ekranu tranzystorem 
+            Obj_Display.clear_all()
+            PNP_wyswietlacz.value(0)
             while Licznik.spac == True and Obj_Menu.spac_menu == True: # Wejście w pętle snu az do momentu "wybudzenia" ;D 
                 time.sleep_ms(500)
             Flaga_start = True          # Włączenie funkcji startowej po wyjściu ze snu
-            #- Miejsce na wlaczenie ekranu tranzystorem
-            #- Można dodać funkcje w screen. która będzie robić "powitanie" po obudzeni
-            #- Można ją umieścić w funkcji startowej, a przed pójściem spać IPS.Fill(st7789.Black)
-            #- Zaoszczędzam wtedy 50ms 
-            
-            
+            pin_wyswietlacz.value(1)
+
             
 ########################################### KONIEC ############################################################

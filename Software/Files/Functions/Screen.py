@@ -138,7 +138,10 @@ class Display():
             path, x, y= image_data.get(obj_menu.warunek_ktory_wyswietlacz, (None, 0, 0))
             if path is not None:
                 IPS.jpg(path, x, y, st7789.SLOW)          
-     
+    
+    def clear_all(self):
+        IPS.fill(st7789.BLACK)
+    
     def show_speed(self, predkosc, zmiana_przycisk):
         if self.wyswietlana_predkosc != predkosc or zmiana_przycisk ==True:
             gc.collect() # Just in case, bo nie ma framebuffera

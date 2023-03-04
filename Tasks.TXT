@@ -1,27 +1,32 @@
-Dobrać parametry kadencji 
+Zmiana pinoutów pod płytkę PCB 
 
+	Dopcjonalnie dodać funkcję startową
 Ogarnięcie programowania na 2 corach	
 (Podstawy, jakiś obiekt co coś oblicza, dzili się danymi, wyświelta, printuje)
 
-Zmiana programu gdy przyjdzie płydka:	
-	Zmiana pinoutów pod płytkę PCB 
-    Dodać sterowanie pinem w celu wyłączania ekranu 
-	
-
 Rozpisać scenariusze oraz ustalić trasę [0/1]	
 Zrobić dokładny test                    [0/1] 
-
-
 Obudowa ochronna z mocowaniem 
 
- 
  
 Dodatkowe funckję na przyszłość 
 - Nawigacja rowerowa
 - Zapisywanie fajnych punktów widokowych   
 - Stworzenie przeglądania statystyk z poszczególnych miesięcy (bar plot) dla 6 miesiecy. 
 - Zapisywanie podróży i stworzenie skryptów pozwalających na pokazanie ich na google mapsach
-- Pico W i stworzenie aplikacji obsługującej licznik (wydaje się totalnie Hard)
+- Dodanie mini gier (Snake, PinBall)
+	Pico W:
+		-Licznik bezprzewodowy
+		-Stworzenie aplikacji obsługującej licznik
+
+
+
+
+
+
+
+
+
 
 
 Praca to spełnienie
