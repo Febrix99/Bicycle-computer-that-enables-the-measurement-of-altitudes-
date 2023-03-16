@@ -1,6 +1,5 @@
-Zmiana pinoutów pod płytkę PCB 
 
-	Dopcjonalnie dodać funkcję startową
+	Opcjonalnie dodać funkcję startową
 Ogarnięcie programowania na 2 corach	
 (Podstawy, jakiś obiekt co coś oblicza, dzili się danymi, wyświelta, printuje)
 

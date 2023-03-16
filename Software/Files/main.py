@@ -31,7 +31,7 @@ Licznik.prev_time = 0 # Zmienna do debouncingu
 Licznik.odliczanie = 0
 
         ########## Zmienne do liczenia kadencji  ##########
-Licznik.CadencePin = machine.Pin(7, machine.Pin.IN, machine.Pin.PULL_UP)  #Zestyk kontraktonu do zliczania kadencji jazdy
+Licznik.CadencePin = machine.Pin(1, machine.Pin.IN, machine.Pin.PULL_UP)  #Zestyk kontraktonu do zliczania kadencji jazdy
 Licznik.current_cadence = 0      # Aktualna kadencja 
 Licznik.prev_time_cadence        # Zmienna do debouncingu
 Licznik.cadence_odliczanie = 0   # Zmienna odliczająca wymaganą ilość obortów kroby 
@@ -74,8 +74,8 @@ Licznik.nr_sciezki = 0
 Obj_Menu = Menu()            # Create an object of class 'Menu'
 
         ########## Przyciski do zarządzaniem menu i zmianą obrazu na wyświeltaczu [1/2]
-Obj_Menu.Przycisk_1_Pin = machine.Pin(28, machine.Pin.IN, machine.Pin.PULL_UP) 
-Obj_Menu.Przycisk_2_Pin = machine.Pin(27, machine.Pin.IN, machine.Pin.PULL_UP)
+Obj_Menu.Przycisk_1_Pin = machine.Pin(2, machine.Pin.IN, machine.Pin.PULL_UP) 
+Obj_Menu.Przycisk_2_Pin = machine.Pin(3, machine.Pin.IN, machine.Pin.PULL_UP)
 Obj_Menu.prev_time_butt_1, Obj_Menu.prev_time_butt_2 = 0, 0 # Zmienne do debouncingu styków
 Obj_Menu.alrm_przycisk_1, Obj_Menu.alrm_przycisk_2 = False, False
 
@@ -119,7 +119,7 @@ Obj_Menu.flaga_buzzer = False                # Wywołanie funkcji buzzera
 Obj_Menu.dodatkowe_czyszczenie = False       # Wykrycie warunku, że interwał się jeszcze nie zaczał a weszliśmy do menu 
 Obj_Menu.podsumowanie_interwalu_przycisk = 0 # Zmienna do pzycisku od menu podsumowania interwałów 
 Obj_Menu.podsumowanie = False                # Wykrycie wejścia w podsumowanie   
-Obj_Menu.pwm15 = PWM(Pin(15))                # Stworzenie obiektu PWM pod pinem nr 15 
+Obj_Menu.pwm15 = PWM(Pin(22))                # Stworzenie obiektu PWM pod pinem nr 22 
 Obj_Menu.pwm15.freq(2500)                    # Ustalenie częstoliwości PWM 
 Obj_Menu.mruganie_liczb_interwal = False     # Zmienna od mrugania liczb przed rozpoczeciem interwału 
 Obj_Menu.deadline_interwal = 0               # Odmierzanie czasu działania buzzera 

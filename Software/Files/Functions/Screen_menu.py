@@ -8,7 +8,7 @@ import vga1_bold_16x32 as font_32 # Wysoka_duża
 
 #################################################################################################
 spi = machine.SPI(0, 40000000, polarity=1, sck=machine.Pin(18), mosi=machine.Pin(19))
-IPS = st7789.ST7789(spi, 240, 320, reset=Pin(21,Pin.OUT), dc=Pin(16, Pin.OUT),rotation = 3)
+IPS = st7789.ST7789(spi, 240, 320, reset=Pin(20,Pin.OUT), dc=Pin(16, Pin.OUT),rotation = 3)
 IPS.init()    
 #################################################################################################
 gold =  st7789.color565(190 , 130 , 60 )
